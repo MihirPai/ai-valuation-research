@@ -1,0 +1,10 @@
+Variable,Baseline,Controlled,Interaction
+R&D intensity,24.293***,28.092***,23.109***
+CapEx intensity,-10.273***,-11.392***,-10.517*
+Future revenue growth,,,11.876***
+R&D × Future growth,,,-19.186
+CapEx × Future growth,,,-27.830
+Log assets,,0.484,0.175
+Leverage,,4.128,3.712
+Observations,216,216,167
+R-squared,0.157,0.209,0.374

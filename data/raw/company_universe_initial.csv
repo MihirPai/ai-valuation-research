@@ -1,0 +1,98 @@
+ticker,company,cik,sector,industry
+ACN,Accenture,1467373,Information Technology,IT Consulting & Other Services
+ADBE,Adobe Inc.,796343,Information Technology,Application Software
+AMD,Advanced Micro Devices,2488,Information Technology,Semiconductors
+AKAM,Akamai Technologies,1086222,Information Technology,Internet Services & Infrastructure
+GOOGL,Alphabet Inc. (Class A),1652044,Communication Services,Interactive Media & Services
+GOOG,Alphabet Inc. (Class C),1652044,Communication Services,Interactive Media & Services
+APH,Amphenol,820313,Information Technology,Electronic Components
+ADI,Analog Devices,6281,Information Technology,Semiconductors
+AAPL,Apple Inc.,320193,Information Technology,"Technology Hardware, Storage & Peripherals"
+AMAT,Applied Materials,6951,Information Technology,Semiconductor Materials & Equipment
+APP,AppLovin,1751008,Communication Services,Advertising
+ANET,Arista Networks,1596532,Information Technology,Communications Equipment
+T,AT&T,732717,Communication Services,Integrated Telecommunication Services
+ADSK,Autodesk,769397,Information Technology,Application Software
+AVGO,Broadcom,1730168,Information Technology,Semiconductors
+CDNS,Cadence Design Systems,813672,Information Technology,Application Software
+CDW,CDW Corporation,1402057,Information Technology,Technology Distributors
+CHTR,Charter Communications,1091667,Communication Services,Cable & Satellite
+CIEN,Ciena,936395,Information Technology,Communications Equipment
+CSCO,Cisco,858877,Information Technology,Communications Equipment
+CTSH,Cognizant,1058290,Information Technology,IT Consulting & Other Services
+COHR,Coherent Corp.,820318,Information Technology,Electronic Components
+CMCSA,Comcast,1166691,Communication Services,Cable & Satellite
+GLW,Corning Inc.,24741,Information Technology,Electronic Components
+CRWD,CrowdStrike,1535527,Information Technology,Systems Software
+DDOG,Datadog,1561550,Information Technology,Application Software
+DELL,Dell Technologies,1571996,Information Technology,"Technology Hardware, Storage & Peripherals"
+ECHO,EchoStar,1415404,Communication Services,Wireless Telecommunication Services
+P,Everpure,1474432,Information Technology,"Technology Hardware, Storage & Peripherals"
+FFIV,"F5, Inc.",1048695,Information Technology,Communications Equipment
+FICO,Fair Isaac,814547,Information Technology,Application Software
+FSLR,First Solar,1274494,Information Technology,Semiconductors
+FLEX,Flex Ltd.,866374,Information Technology,Electronic Manufacturing Services
+FTNT,Fortinet,1262039,Information Technology,Systems Software
+FOXA,Fox Corporation (Class A),1754301,Communication Services,Broadcasting
+FOX,Fox Corporation (Class B),1754301,Communication Services,Broadcasting
+IT,Gartner,749251,Information Technology,IT Consulting & Other Services
+GEN,Gen Digital,849399,Information Technology,Systems Software
+GDDY,GoDaddy,1609711,Information Technology,Internet Services & Infrastructure
+HPE,Hewlett Packard Enterprise,1645590,Information Technology,"Technology Hardware, Storage & Peripherals"
+HPQ,HP Inc.,47217,Information Technology,"Technology Hardware, Storage & Peripherals"
+IBM,IBM,51143,Information Technology,IT Consulting & Other Services
+INTC,Intel,50863,Information Technology,Semiconductors
+INTU,Intuit,896878,Information Technology,Application Software
+JBL,Jabil,898293,Information Technology,Electronic Manufacturing Services
+KEYS,Keysight Technologies,1601046,Information Technology,Electronic Equipment & Instruments
+KLAC,KLA Corporation,319201,Information Technology,Semiconductor Materials & Equipment
+LRCX,Lam Research,707549,Information Technology,Semiconductor Materials & Equipment
+LYV,Live Nation Entertainment,1335258,Communication Services,Movies & Entertainment
+LITE,Lumentum,1633978,Information Technology,Communications Equipment
+MRVL,Marvell Technology,1835632,Information Technology,Semiconductors
+META,Meta Platforms,1326801,Communication Services,Interactive Media & Services
+MCHP,Microchip Technology,827054,Information Technology,Semiconductors
+MU,Micron Technology,723125,Information Technology,Semiconductors
+MSFT,Microsoft,789019,Information Technology,Systems Software
+MPWR,Monolithic Power Systems,1280452,Information Technology,Semiconductors
+MSI,Motorola Solutions,68505,Information Technology,Communications Equipment
+NTAP,NetApp,1002047,Information Technology,"Technology Hardware, Storage & Peripherals"
+NFLX,Netflix,1065280,Communication Services,Movies & Entertainment
+NWSA,News Corp (Class A),1564708,Communication Services,Publishing
+NWS,News Corp (Class B),1564708,Communication Services,Publishing
+NVDA,Nvidia,1045810,Information Technology,Semiconductors
+NXPI,NXP Semiconductors,1413447,Information Technology,Semiconductors
+OMC,Omnicom Group,29989,Communication Services,Advertising
+ON,ON Semiconductor,1097864,Information Technology,Semiconductors
+ORCL,Oracle Corporation,1341439,Information Technology,Application Software
+PLTR,Palantir Technologies,1321655,Information Technology,Application Software
+PANW,Palo Alto Networks,1327567,Information Technology,Systems Software
+PTC,PTC Inc.,857005,Information Technology,Application Software
+Q,Qnity Electronics,2058873,Information Technology,Semiconductor Materials & Equipment
+QCOM,Qualcomm,804328,Information Technology,Semiconductors
+RDDT,Reddit,1713445,Communication Services,Interactive Media & Services
+ROP,Roper Technologies,882835,Information Technology,Electronic Equipment & Instruments
+CRM,Salesforce,1108524,Information Technology,Application Software
+SNDK,Sandisk,2023554,Information Technology,"Technology Hardware, Storage & Peripherals"
+STX,Seagate Technology,1137789,Information Technology,"Technology Hardware, Storage & Peripherals"
+NOW,ServiceNow,1373715,Information Technology,Systems Software
+SKYD,Skydance,2041610,Communication Services,Movies & Entertainment
+SWKS,Skyworks Solutions,4127,Information Technology,Semiconductors
+SMCI,Supermicro,1375365,Information Technology,"Technology Hardware, Storage & Peripherals"
+SNPS,Synopsys,883241,Information Technology,Application Software
+TMUS,T-Mobile US,1283699,Communication Services,Wireless Telecommunication Services
+TTWO,Take-Two Interactive,946581,Communication Services,Interactive Home Entertainment
+TEL,TE Connectivity,1385157,Information Technology,Electronic Manufacturing Services
+TDY,Teledyne Technologies,1094285,Information Technology,Electronic Equipment & Instruments
+TER,Teradyne,97210,Information Technology,Semiconductor Materials & Equipment
+TXN,Texas Instruments,97476,Information Technology,Semiconductors
+TKO,TKO Group Holdings,1973266,Communication Services,Movies & Entertainment
+TRMB,Trimble Inc.,864749,Information Technology,Application Software
+TWLO,Twilio,1447669,Information Technology,Systems Software
+TYL,Tyler Technologies,860731,Information Technology,Application Software
+VRSN,Verisign,1014473,Information Technology,Internet Services & Infrastructure
+VZ,Verizon,732712,Communication Services,Integrated Telecommunication Services
+DIS,Walt Disney Company (The),1744489,Communication Services,Movies & Entertainment
+WDC,Western Digital,106040,Information Technology,"Technology Hardware, Storage & Peripherals"
+WDAY,"Workday, Inc.",1327811,Information Technology,Application Software
+ZBRA,Zebra Technologies,877212,Information Technology,Electronic Equipment & Instruments

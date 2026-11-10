@@ -2,38 +2,42 @@
 
 ## Overview
 
-This project investigates whether higher R&D and capital expenditure intensity are associated with higher valuation multiples among AI-exposed U.S. public companies, and whether those relationships become stronger when subsequent operating performance improves.
+This project looks at whether companies that invest more heavily in R&D and capital expenditures tend to trade at higher valuation multiples, specifically among large public companies that are actively discussing AI.
 
-The analysis focuses on S&P 500 companies in the Information Technology and Communication Services sectors from 2021 through 2025.
+I focused on S&P 500 companies in the Information Technology and Communication Services sectors from 2021–2025.
 
-The project combines:
+The project combines SEC financial data, 10-K filing text, historical stock prices, and regression analysis. The main valuation measure is EV/Sales.
 
-- SEC EDGAR Company Facts financial data
-- SEC 10-K filing text
-- Historical stock price and share data
-- Rules-based AI exposure classification
-- Panel-style regression analysis with robust standard errors
+## Why I Built This
 
-The goal is to build a transparent and reproducible empirical research pipeline rather than claim causal effects.
+I wanted to build a finance project where I had to work with real public-company data instead of starting with a clean Kaggle-style dataset.
+
+One thing that made the topic interesting is that companies generally do not report a separate number for “AI spending.” Because of that, I did not try to estimate AI investment directly. Instead, I used R&D and CapEx intensity as broader investment measures and then limited the analysis to company-years where AI was being discussed in the firm's 10-K.
+
+This ended up being a mix of financial analysis, data engineering, text processing, and statistical modeling.
 
 ## Research Question
 
-> Among AI-exposed U.S. public companies, are higher capital expenditure and R&D investment intensity associated with higher valuation multiples, and is that relationship stronger when subsequent operating performance improves?
+> Among AI-exposed U.S. public companies, are higher R&D and capital expenditure intensity associated with higher valuation multiples, and is that relationship stronger when later operating performance improves?
 
-R&D and capital expenditures are treated as broad investment measures. They should not be interpreted as direct measures of AI spending.
+R&D and CapEx in this project represent total company investment, not direct AI spending.
 
-## Dataset
+## Company Sample
 
-The initial universe contains 97 S&P 500 companies from:
+The starting universe includes 97 S&P 500 companies from:
 
 - Information Technology
 - Communication Services
 
-The study covers fiscal years 2021–2025, producing a maximum panel of 485 company-year observations.
+The analysis covers fiscal years 2021–2025, giving a maximum possible panel of 485 company-year observations.
 
-### AI Exposure
+The final regression samples are smaller because some companies are missing certain accounting or valuation variables.
 
-10-K filings are searched for the following terms:
+## AI Exposure
+
+I classified AI exposure using each company's 10-K.
+
+The filing text was searched for:
 
 - artificial intelligence
 - machine learning
@@ -41,7 +45,7 @@ The study covers fiscal years 2021–2025, producing a maximum panel of 485 comp
 - large language model
 - large language models
 
-A company-year is classified as AI-exposed when at least two total occurrences are found across these terms.
+A company-year was classified as AI-exposed if there were at least two total mentions across those terms.
 
 Final classification:
 
@@ -49,7 +53,9 @@ Final classification:
 - 118 non-AI-exposed company-years
 - 19 company-years without a usable 10-K classification
 
-## Core Variables
+This is meant to be a simple and reproducible classification rule, not a measure of how advanced a company's AI strategy is.
+
+## Financial Variables
 
 ### Investment Measures
 
@@ -77,37 +83,75 @@ Final classification:
 
 ### Controls
 
+The controlled regressions also include:
+
 - Log total assets
 - Leverage
 - Sector
 - Fiscal year
 
-### Subsequent Performance
+### Future Performance
 
-Future revenue growth is defined as the following fiscal year's year-over-year revenue growth.
+I use next year's revenue growth as a simple measure of subsequent operating performance.
 
-## Data Engineering
+## Data Collection and Cleaning
 
-Financial statement data are retrieved from the SEC EDGAR Company Facts API.
+Most accounting data comes from the SEC EDGAR Company Facts API.
 
-Because companies sometimes use different XBRL tags for economically similar concepts, the pipeline includes fallback logic for variables such as:
+One of the bigger challenges was that companies do not always use the same XBRL tags for the same economic concept. I built fallback logic for items such as:
 
 - Revenue
 - R&D
-- Capital expenditures
+- CapEx
 - Debt
 - Cash
 - Assets
 
-Historical stock prices are collected with `yfinance`.
+Historical stock prices were collected with `yfinance`.
 
-Shares outstanding are primarily taken from SEC filings. Historical share counts are adjusted for subsequent stock splits before being multiplied by split-adjusted historical stock prices.
+Shares outstanding came primarily from SEC filings, with a fallback to historical share data when necessary.
 
-Missing financial observations remain missing rather than being replaced with zero.
+I also had to adjust historical shares for stock splits so the share counts were on the same basis as split-adjusted historical prices.
 
-## Regression Design
+Missing accounting values were left missing instead of being assumed to be zero.
 
-All primary regressions use OLS with HC3 heteroskedasticity-robust standard errors.
+## Engineering Challenges
+
+A large part of the project ended up being data-cleaning and edge-case handling.
+
+### Inconsistent XBRL tags
+
+Different companies often report the same type of financial item under different SEC XBRL tags. Using only one tag would have created a lot of missing data, so I built fallback rules for several variables.
+
+### Fiscal-year differences
+
+Not every company follows a normal calendar year. Some firms have January year-ends or 52/53-week fiscal calendars, which created cases where simply using the calendar year gave the wrong fiscal year.
+
+### Stock splits
+
+This caused one of the biggest errors I ran into.
+
+For example, NVIDIA's older SEC share counts were on the share basis that existed at the time, while historical prices from Yahoo were already split-adjusted. Multiplying them directly produced a market capitalization that was obviously too low.
+
+I fixed this by adjusting historical share counts for later stock splits before calculating market cap.
+
+### Missing share data
+
+Some companies did not have usable period-end common shares in the same SEC field. I added a historical-share fallback, and if there still was not a defensible value available, I left the observation missing.
+
+### Filing metadata quirks
+
+Some SEC filings reused fiscal-year labels in ways that created duplicate company-year observations. I added additional deduplication rules based on filing dates and period dates.
+
+### Unbalanced regression sample
+
+The full panel has 485 possible company-years, but the main regression only has 216 usable observations once all required variables are present.
+
+I kept the missing observations as missing instead of forcing a balanced panel.
+
+## Regression Setup
+
+All regressions use OLS with HC3 heteroskedasticity-robust standard errors.
 
 ### Model 1: Baseline
 
@@ -116,7 +160,7 @@ EV/Sales is regressed on:
 - R&D intensity
 - CapEx intensity
 
-Usable observations: **216**
+Observations: **216**
 
 ### Model 2: Controlled
 
@@ -127,7 +171,7 @@ Adds:
 - Sector fixed effects
 - Fiscal-year fixed effects
 
-Usable observations: **216**
+Observations: **216**
 
 ### Model 3: Interaction
 
@@ -137,23 +181,25 @@ Adds:
 - R&D intensity × future revenue growth
 - CapEx intensity × future revenue growth
 
-Continuous interaction variables are mean-centered.
+The interaction variables are mean-centered.
 
-Usable observations: **167**
+Observations: **167**
 
-## Main Results
+## Results
+
+## Results
 
 | Variable | Baseline | Controlled | Interaction |
 |---|---:|---:|---:|
 | R&D intensity | 24.293*** | 28.092*** | 23.109*** |
 | CapEx intensity | -10.273*** | -11.392*** | -10.517* |
-| Future revenue growth |  |  | 11.876*** |
-| R&D × Future growth |  |  | -19.186 |
-| CapEx × Future growth |  |  | -27.830 |
-| Log assets |  | 0.484 | 0.175 |
-| Leverage |  | 4.128 | 3.712 |
-| Observations | 216 | 216 | 167 |
-| R-squared | 0.157 | 0.209 | 0.374 |
+| Future revenue growth | — | — | 11.876*** |
+| R&D × Future growth | — | — | -19.186 |
+| CapEx × Future growth | — | — | -27.830 |
+| Log assets | — | 0.484 | 0.175 |
+| Leverage | — | 4.128 | 3.712 |
+| **Observations** | **216** | **216** | **167** |
+| **R-squared** | **0.157** | **0.209** | **0.374** |
 
 Significance levels:
 
@@ -161,21 +207,21 @@ Significance levels:
 - `**` p < 0.05
 - `*` p < 0.10
 
-## Interpretation
+## What I Found
 
-The main result is that R&D intensity is consistently positively associated with EV/Sales among AI-exposed company-years.
+The clearest result was the relationship between R&D intensity and valuation.
 
-A one-percentage-point increase in R&D intensity corresponds to roughly a 0.24–0.28 increase in EV/Sales in the baseline and controlled specifications.
+R&D intensity was positively associated with EV/Sales in both the baseline and controlled models, and the relationship remained statistically significant after adding controls.
 
-CapEx intensity is negatively associated with EV/Sales in the baseline and controlled models.
+A one-percentage-point increase in R&D intensity was associated with roughly a 0.24–0.28 increase in EV/Sales in those specifications.
 
-Future revenue growth is positively associated with EV/Sales in the interaction model.
+CapEx intensity showed the opposite pattern. It was negatively associated with EV/Sales in the baseline and controlled models.
 
-However, neither the R&D × future growth interaction nor the CapEx × future growth interaction is statistically significant.
+Future revenue growth was positively associated with EV/Sales in the interaction model.
 
-Therefore, the analysis does not provide evidence that the valuation relationship of R&D or CapEx becomes stronger when subsequent revenue growth improves.
+However, neither interaction term was statistically significant, so I did not find evidence that stronger future revenue growth made the R&D or CapEx valuation relationship stronger.
 
-These results should be interpreted as associations rather than causal effects.
+These are associations, not causal estimates.
 
 ## Figures
 
@@ -204,7 +250,7 @@ ai-valuation-research/
 └── requirements.txt
 ```
 
-## Key Output Files
+## Main Output Files
 
 The cleaned outputs include:
 
@@ -219,23 +265,23 @@ The cleaned outputs include:
 
 ## Limitations
 
-Several limitations should be considered.
+There are several limitations to the analysis.
 
-The sample is restricted to large S&P 500 technology and communication-services companies, so the results may not generalize to smaller firms or other industries.
+The sample only includes large S&P 500 companies in technology and communication services, so the results may not apply to smaller firms or other industries.
 
-R&D expense and capital expenditure represent total company investment rather than direct AI investment.
+R&D and CapEx are company-wide investment measures, not direct measures of AI spending.
 
-AI exposure is based on keyword disclosure in 10-K filings and does not measure the actual scale or economic importance of AI activity.
+The AI classification is based on keyword mentions in 10-K filings. It tells me whether AI-related topics were being discussed, but not how important AI was to the business.
 
-Missing accounting observations create an unbalanced panel and reduce the usable regression sample.
+Missing financial data reduced the usable regression sample.
 
-Market values and accounting values are measured on slightly different dates in some cases because shares-outstanding observations may occur near, but not exactly on, fiscal year-end.
+There are also small timing differences between market-value dates and fiscal-year-end accounting values because shares-outstanding observations do not always fall exactly on fiscal year-end.
 
-Some financial variables contain large outliers, particularly revenue growth.
+Some variables, especially revenue growth, contain large outliers.
 
-Finally, the regressions identify statistical associations and should not be interpreted as causal estimates.
+Finally, the regressions are observational, so the results should not be interpreted as causal.
 
-## Tools
+## Tools Used
 
 - Python
 - pandas
